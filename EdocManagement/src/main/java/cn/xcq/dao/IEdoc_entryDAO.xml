@@ -1,0 +1,52 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<!--namespace:接口绝对路径-->
+<mapper namespace="cn.xcq.dao.IEdoc_entryDAO">
+
+
+    <!--所有分类信息-->
+    <select id="findAllCategory" resultType="Edoc_category">
+        select * FROM edoc_category
+    </select>
+
+
+    <!--所有标题信息-->
+    <select id="findAllEntry" resultType="Edoc_entry">
+        select * FROM edoc_entry
+    </select>
+
+    <select id="findAllById" resultType="Edoc_entry">
+        SELECT * FROM edoc_entry
+        <where>
+            <if test="categoryid==0">
+                AND 1=1
+            </if>
+            <if test="categoryid!=0">
+                AND categoryId=#{categoryid}
+            </if>
+        </where>
+    </select>
+
+    <!--新增-->
+    <insert id="addEntry">
+        INSERT INTO edoc_entry(id,categoryId,title,summary,uploaduser,createdate)VALUES(DEFAULT,#{categoryId},#{title},#{summary},#{uploaduser},#{createdate})
+    </insert>
+
+    <!--修改-->
+    <update id="updateEntry">
+        UPDATE  edoc_entry SET categoryId=#{categoryId},title=#{title},summary=#{summary},uploaduser=#{uploaduser},createdate=#{createdate} where id=#{id}
+    </update>
+
+    <!--获取单个-->
+    <select id="getEntry" resultType="Edoc_entry">
+        SELECT * FROM edoc_entry WHERE id=#{id}
+    </select>
+
+    <!--删除-->
+    <delete id="delEntry">
+        DELETE FROM edoc_entry WHERE id=#{id}
+    </delete>
+
+</mapper>
